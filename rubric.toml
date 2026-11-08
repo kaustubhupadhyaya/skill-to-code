@@ -1,0 +1,66 @@
+# Skill-to-Code scoring rubric (read by stdlib tomllib).
+#
+# All weights, thresholds, and verb lists live here so the analyzer stays
+# tunable. The *structure* of the formula is fixed in code; only these values
+# change behavior.
+#
+# ── Scoring formula (analyzer implements this exactly) ────────────────────────
+#   body    = ParsedSkill.body (frontmatter already stripped)
+#   tokens  = re.findall(r"[a-z]+", body.lower())
+#   mech    = count of tokens in [verbs].mechanical
+#   judg    = count of tokens in [verbs].judgment
+#   tv      = max(1, mech + judg)
+#
+#   Signals (each clamped to 0..1):
+#     code_density    = min(1, (lines inside ``` fences) / max(1, total body lines) / 0.5)
+#     mechanical_ratio = mech / tv
+#     sibling_scripts = 1.0 if any sibling .py/.ps1/.sh/.js in skill dir else 0.0
+#     structured_io   = 1.0 if body has BOTH /input\s*:/i and /output\s*:/i,
+#                       0.5 if exactly one, else 0.0
+#     command_lines   = min(1, (command-like lines) / 10)
+#                       command-like = lines inside bash/sh/shell/powershell/ps1/console
+#                       fenced blocks, or lines starting with `$` or `>`
+#
+#   base    = 100 * ( w.code_density     * code_density
+#                   + w.mechanical_ratio * mechanical_ratio
+#                   + w.sibling_scripts  * sibling_scripts
+#                   + w.structured_io    * structured_io
+#                   + w.command_lines    * command_lines )
+#   penalty = penalty.judgment * (judg / tv)
+#   score   = int(max(0, min(100, round(base - penalty))))
+#
+#   bucket  = replace  if score >= thresholds.replace
+#             skip     if score <  thresholds.skip
+#             wrap     otherwise
+# ─────────────────────────────────────────────────────────────────────────────
+
+[thresholds]
+replace = 70   # score >= this  -> replace bucket
+skip = 35      # score <  this  -> skip bucket ; in between -> wrap
+
+[weights]
+code_density = 0.30
+mechanical_ratio = 0.25
+sibling_scripts = 0.15
+structured_io = 0.10
+command_lines = 0.20
+
+[penalty]
+judgment = 35   # subtracted, scaled by judg/tv
+
+[verbs]
+mechanical = [
+    "run", "execute", "copy", "move", "rename", "delete", "remove",
+    "glob", "grep", "search", "parse", "fetch", "download", "upload",
+    "curl", "clone", "commit", "push", "pull", "checkout", "read",
+    "write", "list", "walk", "scan", "hash", "encode", "decode",
+    "compress", "extract", "convert", "replace", "format", "sort",
+    "filter", "count", "concatenate", "split",
+]
+judgment = [
+    "decide", "consider", "evaluate", "judge", "assess", "interpret",
+    "explain", "choose", "select", "recommend", "analyze", "reason",
+    "understand", "determine", "weigh", "prefer", "prioritize",
+    "review", "critique", "design", "brainstorm", "clarify", "discuss",
+    "negotiate", "summarize", "infer",
+]

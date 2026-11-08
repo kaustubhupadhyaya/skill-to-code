@@ -1,0 +1,136 @@
+# Skill-to-Code — Scoring Rubric
+#
+# This file is the heart of the analyzer. It controls how every skill on your
+# machine gets bucketed. The defaults below are reasonable starting points but
+# YOUR judgment matters here — these weights and thresholds embody the product's
+# point of view about what "programmable" means.
+#
+# Read the four TODOs below. Each one is a 1–3 line decision that shapes the
+# tool's recommendations. Total contribution: ~10 lines.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TODO 1 — Safety posture (PRD Q4)
+#
+# When the user runs `skill-to-code convert <name>`, what should happen by
+# default?
+#   - "dry-run"          : show diff only, never write
+#   - "stage"            : write to .converted/ but never overwrite original
+#   - "apply-with-prompt": ask y/n per skill, then overwrite
+#
+# Trade-off: dry-run is safest but adds a step. apply-with-prompt is fastest
+# but a misclick destroys a skill. stage is the middle ground.
+default_mode: stage   # <-- change if you disagree
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TODO 2 — Default output language (PRD Q2)
+#
+# When generating a script for a converted skill, what language do we emit?
+#   - "auto"       : detect from existing scripts in the skill dir; fall back to powershell on win, bash elsewhere
+#   - "python"     : portable, readable, but requires interpreter present
+#   - "powershell" : native on Windows, awkward on macOS/Linux
+#   - "bash"       : universal on Unix, requires WSL/Git Bash on Windows
+#
+# Trade-off: "auto" respects the skill author's existing choice. "python" is
+# the most portable for cross-platform skills. "powershell" is fastest for
+# this Windows host but ties you to one OS.
+default_language: auto   # <-- change if you have a preference
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TODO 3 — Scoring weights (PRD Q3)
+#
+# Each signal contributes points (positive = more programmable, negative = more
+# judgment-y). Final score is clamped to 0–100. Tune these to match how YOU
+# think about programmability.
+#
+# Mental model: a skill that already has a sibling script + uses imperative
+# verbs + has lots of code blocks should land near 90+. A skill that only
+# says "interpret the user's intent and write a response" should land near 0.
+signals:
+  has_sibling_script:        +30   # SKILL.md dir contains .py/.ps1/.sh/.js
+  code_block_density_high:   +20   # >40% of body lines are inside ``` fences
+  imperative_verb_density:   +15   # "run, parse, write, copy, exec, grep, fetch"
+  structured_io_declared:    +10   # explicit "Inputs:" / "Outputs:" sections
+  fixed_paths_or_regex:      +10   # literal filenames, regex literals
+  short_body:                +5    # short SKILL.md = small surface, easier to script
+  # ── negatives ──
+  judgment_verb_density:     -25   # "decide, interpret, summarize, judge, brainstorm, explain"
+  open_ended_exploration:    -20   # "research, investigate, consider, explore"
+  prose_output_required:     -20   # asks LLM to produce natural-language output
+  references_user_intent:    -15   # "the user's goal", "what they want"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TODO 4 — Bucket thresholds
+#
+# Where do you draw the line between replace / wrap / skip?
+# These are score cutoffs (0–100).
+buckets:
+  replace_min: 80   # >= this → full script replacement
+  wrap_min:    45   # >= this but < replace_min → extract mechanical steps only
+                    # < wrap_min → leave alone (skip bucket)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Word lists — extend if you see the analyzer mis-scoring real skills.
+words:
+  imperative:
+    - run
+    - parse
+    - write
+    - copy
+    - exec
+    - grep
+    - fetch
+    - download
+    - upload
+    - extract
+    - transform
+    - convert
+    - lint
+    - format
+    - install
+    - commit
+    - push
+    - pull
+    - build
+    - test
+    - deploy
+
+  judgment:
+    - decide
+    - interpret
+    - summarize
+    - judge
+    - brainstorm
+    - explain
+    - clarify
+    - reason
+    - consider
+    - evaluate
+    - assess
+    - recommend
+    - suggest
+
+  exploration:
+    - research
+    - investigate
+    - explore
+    - discover
+    - survey
+    - audit
+    - review
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Discovery roots — where to look for skills.
+discovery:
+  user_skill_dir: "~/.claude/skills"
+  plugin_glob:    "~/.claude/plugins/*/skills"
+  project_roots:
+    - "~/github"
+    - "~/code"
+    - "~/projects"
+  exclude_dirs:
+    - node_modules
+    - .git
+    - .venv
+    - __pycache__
+    - dist
+    - build

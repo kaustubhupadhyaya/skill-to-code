@@ -1,0 +1,127 @@
+<mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="620" math="0" shadow="0" adaptiveColors="auto">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+    <mxCell id="title" value="skill-to-code — system architecture (v1, LLM-free)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="12" width="500" height="30" as="geometry"/>
+    </mxCell>
+    <mxCell id="lgScan" value="scan pipeline (M1)" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=center;verticalAlign=middle;fontSize=11;rounded=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="120" width="150" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="lgConv" value="convert pipeline (M2 / M4)" style="text;html=1;strokeColor=none;fillColor=#d5e8d4;align=center;verticalAlign=middle;fontSize=11;rounded=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="360" width="180" height="24" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="cli" value="cli.py&#10;scan · convert  (argparse)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="520" y="44" width="240" height="46" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="roots" value="Skill roots&#10;~/.claude/skills · plugins/** ·&#10;project .claude/skills · --root/--include" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="40" y="150" width="190" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="discovery" value="discovery.py&#10;walk · dedup · symlink-safe" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+      <mxGeometry x="300" y="155" width="160" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="parser" value="parser.py&#10;frontmatter · fences · siblings" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+      <mxGeometry x="520" y="155" width="160" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="analyzer" value="analyzer.py&#10;score 0–100 · bucket · reasons" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+      <mxGeometry x="740" y="155" width="160" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="report" value="report.py&#10;table · json · md · filters" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+      <mxGeometry x="960" y="155" width="160" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="out1" value="ranked output" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="1180" y="160" width="130" height="50" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="rubric" value="rubric.toml&#10;weights · thresholds · verbs" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;boundedLbl=1;" vertex="1" parent="1">
+      <mxGeometry x="750" y="58" width="140" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="cache" value="cache.json&#10;~/.claude/skill-to-code&#10;(analysis cache)" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;boundedLbl=1;" vertex="1" parent="1">
+      <mxGeometry x="310" y="270" width="150" height="66" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="extract" value="extract.py&#10;lift executable fences (verbatim)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="520" y="380" width="160" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="convert" value="convert.py&#10;codegen · rewrite · stage · idempotency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="740" y="380" width="160" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="lint" value="lint.py&#10;syntax check" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="960" y="350" width="160" height="44" as="geometry"/>
+    </mxCell>
+    <mxCell id="verify" value="verify.py (opt-in)&#10;exec in temp dir · timeout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="960" y="410" width="160" height="44" as="geometry"/>
+    </mxCell>
+    <mxCell id="gate" value="apply gate&#10;lint &amp; verify ok?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+      <mxGeometry x="1180" y="368" width="130" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="converted" value="&lt;skill&gt;/.converted/&#10;scripts · stub SKILL.md · plan.json · .backup" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;boundedLbl=1;" vertex="1" parent="1">
+      <mxGeometry x="700" y="480" width="200" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="orig" value="original SKILL.md&#10;overwritten (backup kept)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="1185" y="490" width="130" height="54" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="e_cli_disc" value="scan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="cli" target="discovery">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_cli_conv" value="convert" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="cli" target="convert">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="roots" target="discovery">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e2" value="DiscoveredSkill[]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="discovery" target="parser">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e3" value="ParsedSkill" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="parser" target="analyzer">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e4" value="AnalysisResult[]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="analyzer" target="report">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="report" target="out1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_rub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;" edge="1" parent="1" source="rubric" target="analyzer">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_cache_disc" value="read/write" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;fontSize=10;startArrow=classic;startFill=1;" edge="1" parent="1" source="discovery" target="cache">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_cache_an" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="analyzer" target="cache">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="e_par_ext" value="ParsedSkill" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="parser" target="extract">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_an_conv" value="bucket" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="analyzer" target="convert">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ext_conv" value="CodeSegment[]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="extract" target="convert">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_conv_stage" value="stage (dry-run)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="convert" target="converted">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_conv_lint" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="convert" target="lint">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_conv_ver" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="convert" target="verify">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_lint_gate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="lint" target="gate">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ver_gate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="verify" target="gate">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_gate_orig" value="--apply (pass)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;" edge="1" parent="1" source="gate" target="orig">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel>

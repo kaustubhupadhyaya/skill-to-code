@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skill-to-code"
+version = "0.1.0"
+description = "Audit Claude Code skills, score how programmable each is, and convert the deterministic ones into scripts."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Kaustubh Upadhyaya" }]
+keywords = ["claude", "claude-code", "skills", "codegen", "audit", "cli"]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/kaustubhupadhyaya/skill-to-code"
+Repository = "https://github.com/kaustubhupadhyaya/skill-to-code"
+
+[project.scripts]
+skill-to-code = "skill_to_code.cli:main"
+
+[tool.setuptools]
+packages = ["skill_to_code"]
+
+[tool.setuptools.package-data]
+skill_to_code = ["rubric.toml"]
